@@ -189,6 +189,19 @@
             </div>
 
             <div class="rounded-2xl border border-border bg-card p-4">
+              <p class="text-xs uppercase tracking-[0.3em] text-muted-foreground">视频生成</p>
+              <div class="mt-4 space-y-3">
+                <label class="block text-xs text-muted-foreground">输出格式（使用 gemini-veo 模型时生效）</label>
+                <SelectMenu
+                  v-model="localSettings.video_generation.output_format"
+                  :options="videoOutputOptions"
+                  placement="up"
+                  class="w-full"
+                />
+              </div>
+            </div>
+
+            <div class="rounded-2xl border border-border bg-card p-4">
               <p class="text-xs uppercase tracking-[0.3em] text-muted-foreground">公开展示</p>
               <div class="mt-4 space-y-3">
                 <label class="block text-xs text-muted-foreground">Logo 地址</label>
@@ -272,6 +285,11 @@ const imageOutputOptions = [
   { label: 'Base64 编码', value: 'base64' },
   { label: 'URL 链接', value: 'url' },
 ]
+const videoOutputOptions = [
+  { label: 'HTML 视频标签', value: 'html' },
+  { label: 'URL 链接', value: 'url' },
+  { label: 'Markdown 格式', value: 'markdown' },
+]
 const imageModelOptions = computed(() => {
   const baseOptions = [
     { label: 'Gemini 3 Pro Preview', value: 'gemini-3-pro-preview' },
@@ -279,6 +297,8 @@ const imageModelOptions = computed(() => {
     { label: 'Gemini 2.5 Pro', value: 'gemini-2.5-pro' },
     { label: 'Gemini 2.5 Flash', value: 'gemini-2.5-flash' },
     { label: 'Gemini Auto', value: 'gemini-auto' },
+    { label: 'Gemini Imagen (图片生成)', value: 'gemini-imagen' },
+    { label: 'Gemini Veo (视频生成)', value: 'gemini-veo' },
   ]
 
   const selected = localSettings.value?.image_generation.supported_models || []
@@ -296,6 +316,8 @@ watch(settings, (value) => {
   const next = JSON.parse(JSON.stringify(value))
   next.image_generation = next.image_generation || { enabled: false, supported_models: [], output_format: 'base64' }
   next.image_generation.output_format ||= 'base64'
+  next.video_generation = next.video_generation || { output_format: 'html' }
+  next.video_generation.output_format ||= 'html'
   next.basic = next.basic || {}
   next.basic.duckmail_base_url ||= 'https://api.duckmail.sbs'
   next.basic.duckmail_verify_ssl = next.basic.duckmail_verify_ssl ?? true
