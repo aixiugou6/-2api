@@ -1147,10 +1147,10 @@ async def admin_update_config(request: Request, accounts_data: list = Body(...))
 
 @app.post("/admin/register/start")
 @require_login()
-async def admin_start_register(request: Request, count: Optional[int] = Body(default=None), domain: Optional[str] = Body(default=None)):
+async def admin_start_register(request: Request, count: Optional[int] = Body(default=None), domain: Optional[str] = Body(default=None), mail_provider: Optional[str] = Body(default=None)):
     if not register_service:
         raise HTTPException(503, "register service unavailable")
-    task = await register_service.start_register(count=count, domain=domain)
+    task = await register_service.start_register(count=count, domain=domain, mail_provider=mail_provider)
     return task.to_dict()
 
 

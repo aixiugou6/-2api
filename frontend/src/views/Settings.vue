@@ -144,7 +144,7 @@
                     class="w-full rounded-2xl border border-input bg-background px-3 py-2 text-sm"
                     placeholder="dk_xxx"
                   />
-                  <label class="block text-xs text-muted-foreground">默认注册域名（推荐）</label>
+                  <label class="block text-xs text-muted-foreground">DuckMail 域名（推荐）</label>
                   <input
                     v-model="localSettings.basic.register_domain"
                     type="text"
